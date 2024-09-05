@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
 
+import { useState, useEffect } from "react";
 import "./App.css";
+
 
 function App() {
   const [pokemon, setPokemon] = useState(null);
@@ -22,7 +23,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="mainContainer">
         <div key={pokemon.id}>
         {" "}
         {/* Add a key prop to each item */}
