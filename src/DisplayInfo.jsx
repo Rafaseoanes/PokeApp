@@ -1,39 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import InfoCard from "./InfoCard";
 
-function DisplayInfo({ pokemon, color }) {
+function DisplayInfo({ pokemon, color, characteristic }) {
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (characteristic) {
+      const data = characteristic.flavor_text_entries.find(
+        (entry) => entry.language.name === "en"
+      );
+
+      const cleanedDescription = data
+        ? data.flavor_text.replace(/\f/g, " ") // Replace form feed characters with space
+        : "No description available";
+
+      setDescription(cleanedDescription);
+    }
+  }, [characteristic]);
+
   return (
     <div>
-      <div>
-        <h3>About</h3>
-      </div>
-      <div>
-        <div
-          className="bg-white p-2 rounded-md m-4 transition-colors"
-          style={{
-            boxShadow: `5px 5px 12px -3px  ${color}`,
-          }}
-        >
-          <h5>Height:</h5>
-          <p>{`${pokemon.height / 10} m`}</p>
-        </div>
-        <div
-          className="bg-white p-2 rounded-md m-4 transition-colors"
-          style={{
-            boxShadow: `5px 5px 12px -3px  ${color}`,
-          }}
-        >
-          <h5>Type:</h5>
-          <p>{pokemon.types[0].type.name}</p>
-        </div>
-        <div
-          className="bg-white p-2 rounded-md m-4 transition-colors"
-          style={{
-            boxShadow: `5px 5px 12px -3px  ${color}`,
-          }}
-        >
-          <h5>Weight:</h5>
-          <p>{`${pokemon.weight /10 } kg`}</p>
-        </div>
+      <h3 className="font-semibold">About:</h3>
+      <h5 className="w-72 my-6">{description}</h5>
+      <div className="grid grid-cols-3 gap-2">
+        <InfoCard
+          label="Weight"
+          value={`${pokemon.weight / 10} kg`}
+          color={color}
+        />
+        <InfoCard
+          label="Height"
+          value={`${pokemon.height / 10} m`}
+          color={color}
+        />
+        <InfoCard
+          label="Type"
+          value={pokemon.types[0].type.name}
+          color={color}
+        />
       </div>
     </div>
   );

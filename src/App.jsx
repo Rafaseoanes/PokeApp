@@ -4,13 +4,18 @@ import DisplayInfo from "./DisplayInfo";
 
 function App() {
   const [pokemon, setPokemon] = useState(null);
+  const [pokemonCharacteristic, setPokemonCharacteristic] = useState(null);
   const [index, setIndex] = useState(1);
   const [color, setColor] = useState("#91DCED");
 
   async function fetchPokemon() {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${index}/`);
     setPokemon(await response.json());
+
+    const characteristic = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${index}/`);
+    setPokemonCharacteristic(await characteristic.json());
   }
+  
 
   // let pokemonName = pokemon.name
   // pokemonName = pokemonName[0].toUpperCase() + pokemonName.substring(1);
@@ -23,6 +28,7 @@ function App() {
     return "loading...";
   }
   console.log(pokemon);
+  console.log(pokemonCharacteristic);
 
   const fac = new FastAverageColor();
   fac
@@ -49,16 +55,17 @@ function App() {
           <div className="flex flex-col text-center " key={pokemon.id}>
             <div>
               <h4 style={{ color: color, textTransform: "capitalize" }} className="text-5xl m-2">{pokemon.name}</h4>
-              <h4>{`#00${pokemon.id}`}</h4>
+              
             </div>
             <img
               className="size-64"
               src={pokemon.sprites.other["official-artwork"].front_default}
               alt={pokemon.name + "_img"}
             />
+            <h4>{`#00${pokemon.id}`}</h4>
           </div>
           <div>
-            <DisplayInfo pokemon={pokemon} color={color}/>
+            <DisplayInfo pokemon={pokemon} color={color} characteristic={pokemonCharacteristic}/>
           </div>
           <button
             className="text-gray-600 cursor-pointer"
