@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InfoCard from "./InfoCard";
+import StatsBar from "./statsBar";
 
 function DisplayInfo({ pokemon, color, characteristic }) {
   const [description, setDescription] = useState("");
@@ -21,7 +22,7 @@ function DisplayInfo({ pokemon, color, characteristic }) {
   return (
     <div>
       <h3 className="font-semibold">About:</h3>
-      <h5 className="w-72 my-6">{description}</h5>
+      <h5 className="w-72 h-20 my-6">{description}</h5>
       <div className="grid grid-cols-3 gap-2">
         <InfoCard
           label="Weight"
@@ -38,6 +39,12 @@ function DisplayInfo({ pokemon, color, characteristic }) {
           value={pokemon.types[0].type.name}
           color={color}
         />
+      </div>
+      <div>
+        <h4 className="font-semibold mt-6 mb-3">Stats:</h4>
+        <div>
+            <StatsBar pokemon={pokemon} color={color}/>
+        </div>
       </div>
     </div>
   );
